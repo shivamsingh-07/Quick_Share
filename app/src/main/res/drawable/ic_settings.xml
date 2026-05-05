@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Settings (gear) icon.
+
+  Source: settings.svg (48x48 viewBox, stroke-only).
+  Tinting: stroke uses a neutral base color, repaint via
+  Compose `ColorFilter.tint(...)` or `Icon(tint = ...)`. Stroke width is
+  3.0 / 48 viewport ≈ 6.25 %, matching ic_quick_share / ic_receive / ic_send
+  for visually balanced line weight at any display size.
+
+  Note: the path contains two sub-paths (gear outline + inner circle).
+  Because the source is stroke-only with a transparent fill, fill-winding
+  rules don't apply — both sub-paths render purely as strokes.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:pathData="M39.23,26a17,17 0,0 0,0.14 -2a17,17 0,0 0,-0.14 -2l4.33,-3.39a1,1 0,0 0,0.25 -1.31l-4.1,-7.11a1,1 0,0 0,-1.25 -0.44l-5.11,2.06a15.7,15.7 0,0 0,-3.46 -2l-0.77,-5.43a1,1 0,0 0,-1 -0.86H19.9a1,1 0,0 0,-1 0.86l-0.77,5.43a15.4,15.4 0,0 0,-3.46 2L9.54,9.75a1,1 0,0 0,-1.25 0.44l-4.1,7.11a1,1 0,0 0,0.25 1.31L8.76,22a17,17 0,0 0,-0.14 2a17,17 0,0 0,0.14 2l-4.32,3.39a1,1 0,0 0,-0.25 1.31l4.1,7.11a1,1 0,0 0,1.25 0.44l5.11,-2.06a15.7,15.7 0,0 0,3.46 2l0.77,5.43a1,1 0,0 0,1 0.86h8.2a1,1 0,0 0,1 -0.86l0.77,-5.43a15.4,15.4 0,0 0,3.46 -2l5.11,2.06a1,1 0,0 0,1.25 -0.44l4.1,-7.11a1,1 0,0 0,-0.25 -1.31ZM24,31.18A7.18,7.18 0,1 1,31.17 24A7.17,7.17 0,0 1,24 31.18"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

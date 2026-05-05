@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Pixel phone icon normalized to the same 48x48 icon grid and 3px stroke
+  weight used by ic_tv.xml.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:pathData="M17,2.5 H31 A5.5,5.5 0 0 1 36.5,8 V40 A5.5,5.5 0 0 1 31,45.5 H17 A5.5,5.5 0 0 1 11.5,40 V8 A5.5,5.5 0 0 1 17,2.5 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="
+            M24,5.5
+            C25.1,5.5 26,6.4 26,7.5
+            C26,8.6 25.1,9.5 24,9.5
+            C22.9,9.5 22,8.6 22,7.5
+            C22,6.4 22.9,5.5 24,5.5
+            Z" />
+</vector>

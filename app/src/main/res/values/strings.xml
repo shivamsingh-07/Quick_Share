@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quick Share</string>
+    <string name="action_receive">Receive</string>
+    <string name="action_send">Send</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_back">Back</string>
+
+    <string name="home_wifi_hint">Make sure both devices are connected to the same Wi-Fi network</string>
+
+    <!-- Send screen — title is the constant `action_send` for every phase; only
+         the in-card content swaps between Pick / QR / Transferring / Result. -->
+    <string name="send_action_select_files">Select Files</string>
+    <string name="send_action_done">Done</string>
+    <string name="send_qr_hint">Scan this QR to get the files.</string>
+    <string name="send_complete_message">Files sent successfully.</string>
+    <string name="send_failed_message">Transfer failed.</string>
+
+    <!-- File-list card (shown above the status card whenever URIs are picked). -->
+    <string name="send_files_card_title">Selected Files</string>
+    <string name="send_file_size_unknown">—</string>
+    <string name="send_files_more">+ %1$d more files</string>
+
+    <!-- Status card headers. -->
+    <string name="send_status_card_title">Transfer Status</string>
+
+    <!-- Send-screen ViewModel status strings (drive the one-liner under the card title). -->
+    <string name="send_status_pick_files">Pick files to get started.</string>
+    <string name="send_status_generating_qr">Generating QR code...</string>
+    <string name="send_status_connecting">Connecting...</string>
+    <string name="send_status_verifying">Verifying connection...</string>
+    <string name="send_status_awaiting">Waiting for confirmation...</string>
+    <string name="send_status_sending">Sending...</string>
+    <string name="send_status_done">Done</string>
+
+    <!-- Device-picker section. The picker is the default discovery flow once
+         files are selected: an mDNS-backed list of named, ready-to-connect
+         peers, with a "Use QR" affordance to fall back to the legacy
+         QR-code path when the picker can't see the receiver. -->
+    <string name="send_picker_section_label">Nearby Devices</string>
+    <string name="send_picker_use_qr">QR Code</string>
+    <string name="send_picker_use_devices">Pick Device</string>
+    <string name="send_picker_or">OR</string>
+    <string name="send_picker_scanning">Scanning for nearby devices...</string>
+    <string name="send_pin_label">PIN: %1$s</string>
+    <!-- Picker empty-state copy when Bluetooth is not ready. The QR button
+         below the scan card is auto-focused so the user's first D-pad action
+         lands on the safe fallback. -->
+    <string name="send_picker_bt_off_title">Bluetooth is off</string>
+    <string name="send_picker_bt_off_body">Turn on Bluetooth to discover nearby devices.</string>
+
+    <!-- Back-press confirmation toast. Shown for ~3 s after the first Back
+         press during an in-flight transfer phase (sender: PICK_DEVICE /
+         AWAITING_SCAN / TRANSFERRING; receiver: TRANSFERRING). A second
+         Back press within that window cancels the transfer. The wording
+         is screen-agnostic — same affordance, same vocabulary. -->
+    <string name="back_again_to_cancel">Press Back again to cancel</string>
+
+    <!-- Receive screen — title is the constant `action_receive` for every phase;
+         the in-card content swaps between Listening / Connecting / Prompt /
+         Transferring / Result. -->
+    <string name="receive_status_listening">Ready to receive...</string>
+    <string name="receive_status_listening_hint">Nearby devices can share with you.</string>
+    <string name="receive_status_connecting">Connecting...</string>
+    <string name="receive_status_handshaking">Verifying connection...</string>
+    <string name="receive_status_receiving">Receiving...</string>
+
+    <!-- Transferring phase (shown after Accept). The card starts with a
+         compact device pill (icon + sender display name), followed by a
+         circular progress dial with the live percentage label centred inside. -->
+
+    <!-- Incoming-transfer confirmation prompt. Sender name is interpolated into the
+         subtitle so the user reads "From <Pixel 9>" before deciding. -->
+    <string name="receive_prompt_summary">%1$s wants to share %2$d %3$s(s) with you (Size: %4$s)</string>
+    <string name="receive_prompt_unknown_device">A nearby device</string>
+    <string name="receive_share_type_file">file</string>
+    <string name="receive_share_type_image">image</string>
+    <string name="receive_share_type_video">video</string>
+    <string name="receive_share_type_audio">audio</string>
+    <string name="receive_share_type_text_file">text file</string>
+    <string name="receive_action_accept">Accept</string>
+    <string name="receive_action_reject">Reject</string>
+    <string name="receive_request_rejected">Request declined</string>
+
+    <!-- Pending file list shown above Accept/Reject. Mirrors send_files_card_title /
+         send_files_more so both pages read with one vocabulary. -->
+    <string name="receive_files_card_title">Incoming Files</string>
+    <string name="receive_files_more">+ %1$d more file(s)</string>
+
+    <!-- PIN row shown alongside sender name during prompt + transfer when the sender
+         is using the picker (non-QR) flow, so the user can verify it matches the
+         confirmation digits on the phone. -->
+    <string name="receive_pin_label">PIN: %1$s</string>
+
+    <!-- Terminal-state messages. -->
+    <string name="receive_complete_message">Files received successfully.</string>
+    <string name="receive_failed_message">Receive failed.</string>
+
+    <!-- User-facing transfer failure messages. Raw exception text stays in logs;
+         result screens use these stable, localized messages instead. -->
+    <string name="transfer_error_declined_by_receiver">Transfer declined by receiver.</string>
+    <string name="transfer_error_cancelled_by_sender">Transfer cancelled by sender.</string>
+    <string name="transfer_error_request_declined">Request declined.</string>
+    <string name="transfer_error_no_receiver">No receiver found. Make sure the other device is nearby and visible.</string>
+    <string name="transfer_error_connection_failed">Couldn\'t connect to the other device. Check Wi-Fi and try again.</string>
+    <string name="transfer_error_connection_lost">Connection lost. Try again.</string>
+    <string name="transfer_error_secure_connection">Couldn\'t verify the secure connection. Try again.</string>
+    <string name="transfer_error_file_read">Couldn\'t read one of the selected files.</string>
+    <string name="transfer_error_receive_start_failed">Couldn\'t start receiving. Check Wi-Fi and try again.</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="device_name_label">Device Name</string>
+    <string name="settings_device_name_helper">Shown to other devices on your network.</string>
+    <string name="settings_edit_device_name">Edit device name: %1$s</string>
+    <string name="settings_auto_accept">Auto Accept Incoming Transfers</string>
+    <string name="settings_auto_accept_detail">Receive files without showing the confirmation prompt.</string>
+    <string name="settings_theme_desc">Choose how app appears.</string>
+
+    <string name="settings_theme_label">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+
+    <!-- Required FGS notification (low importance / silent channel). Not used for “transfer done” toasts. -->
+    <string name="fgs_channel_name">Active transfer</string>
+    <string name="fgs_channel_description">Shown only while sending or receiving files</string>
+    <string name="fgs_notification_title">Quick Share</string>
+    <string name="fgs_notification_text_default">Transfer in progress</string>
+    <string name="fgs_notification_receiving">Receiving files</string>
+    <string name="fgs_notification_sending">Sending files</string>
+</resources>

@@ -1,0 +1,39 @@
+// SecureMessage envelope (subset). Used by Google D2D for encrypt-then-MAC.
+syntax = "proto2";
+
+package quickshare.securemessage;
+
+option java_package = "com.quickshare.tv.proto.securemessage";
+option java_multiple_files = true;
+
+// Outermost message on the wire (after UKEY2 finishes).
+message SecureMessage {
+    required bytes header_and_body = 1; // Serialized HeaderAndBody.
+    required bytes signature = 2;       // HMAC-SHA256 over header_and_body.
+}
+
+message HeaderAndBody {
+    required Header header = 1;
+    required bytes body = 2;            // Ciphertext (AES-256-CBC).
+}
+
+message Header {
+    required SigScheme signature_scheme = 1;
+    required EncScheme encryption_scheme = 2;
+    optional bytes verification_key_id = 3;
+    optional bytes decryption_key_id = 4;
+    optional bytes iv = 5;              // 16 bytes for AES-CBC.
+    optional bytes public_metadata = 6; // Application metadata (we put DeviceToDeviceMessage info here).
+    optional bytes associated_data_length = 7;
+}
+
+enum SigScheme {
+    HMAC_SHA256 = 1;
+    ECDSA_P256_SHA256 = 2;
+    RSA2048_SHA256 = 3;
+}
+
+enum EncScheme {
+    NONE = 1;
+    AES_256_CBC = 2;
+}

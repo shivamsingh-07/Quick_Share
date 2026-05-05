@@ -1,0 +1,105 @@
+// Nearby Share / Quick Share application-layer frames (subset).
+// Carried as the body of BYTES payloads inside the OfflineFrame layer.
+syntax = "proto2";
+
+package quickshare.share;
+
+option java_package = "com.quickshare.tv.proto.share";
+option java_multiple_files = true;
+
+message Frame {
+    enum Version {
+        UNKNOWN_VERSION = 0;
+        V1 = 1;
+    }
+    optional Version version = 1;
+    optional V1Frame v1 = 2;
+}
+
+message V1Frame {
+    enum FrameType {
+        UNKNOWN = 0;
+        INTRODUCTION = 1;
+        RESPONSE = 2;
+        PAIRED_KEY_ENCRYPTION = 3;
+        PAIRED_KEY_RESULT = 4;
+        CERTIFICATE_INFO = 5;
+        CANCEL = 6;
+    }
+    optional FrameType type = 1;
+    optional IntroductionFrame introduction = 2;
+    optional ConnectionResponseFrame connection_response = 3;
+    optional PairedKeyEncryptionFrame paired_key_encryption = 4;
+    optional PairedKeyResultFrame paired_key_result = 5;
+}
+
+message IntroductionFrame {
+    repeated FileMetadata file_metadata = 1;
+    repeated TextMetadata text_metadata = 2;
+    optional string required_package = 3; // e.g. "" -> any
+    repeated WifiCredentialsMetadata wifi_credentials_metadata = 4;
+}
+
+// Field numbers MUST match sharing.nearby.FileMetadata in upstream wire_format.proto:
+// https://github.com/Martichou/rquickshare/blob/master/core_lib/src/proto_src/wire_format.proto
+// id=6 is the cross-attachment
+// uuid; we don't set it but the peer may, and the parser must agree.
+message FileMetadata {
+    enum Type { UNKNOWN = 0; IMAGE = 1; VIDEO = 2; APP = 3; AUDIO = 4; }
+    optional string name = 1;
+    optional Type type = 2;
+    optional int64 payload_id = 3;
+    optional int64 size = 4;
+    optional string mime_type = 5;
+    optional int64 id = 6;
+}
+
+// Field numbers MUST match the sharing.nearby spec — note text_title is at
+// **field 2**, not 1, and the message has no field 1 at all.
+message TextMetadata {
+    enum Type { UNKNOWN = 0; TEXT = 1; URL = 2; ADDRESS = 3; PHONE_NUMBER = 4; }
+    optional string text_title = 2;
+    optional Type type = 3;
+    optional int64 payload_id = 4;
+    optional int64 size = 5;
+    optional int64 id = 6;
+}
+
+// Same off-by-one: ssid starts at field 2 in the upstream spec.
+message WifiCredentialsMetadata {
+    optional string ssid = 2;
+    optional int32 security_type = 3;
+    optional int64 payload_id = 4;
+    optional int64 id = 5;
+}
+
+message ConnectionResponseFrame {
+    enum Status {
+        UNKNOWN = 0;
+        ACCEPT = 1;
+        REJECT = 2;
+        NOT_ENOUGH_SPACE = 3;
+        UNSUPPORTED_ATTACHMENT_TYPE = 4;
+        TIMED_OUT = 5;
+    }
+    optional Status status = 1;
+}
+
+message PairedKeyEncryptionFrame {
+    optional bytes signed_data = 1;
+    optional bytes secret_id_hash = 2;
+    optional bytes optional_signed_data = 3;
+    // ECDSA-P256 IEEE P1363 R‖S (64 bytes) over UKEY2 auth_string — proves QR key
+    // ownership so stock Quick Share can skip the device-confirmation sheet.
+    optional bytes qr_code_handshake_data = 4;
+}
+
+message PairedKeyResultFrame {
+    enum Status {
+        UNKNOWN = 0;
+        SUCCESS = 1;
+        FAIL = 2;
+        UNABLE = 3;
+    }
+    optional Status status = 1;
+}

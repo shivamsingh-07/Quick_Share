@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Receive (download / inbox) icon — tray with downward arrow.
+
+  Source: receive-svgrepo-com.svg (24x24 viewBox, stroke-only).
+  Tinting: stroke uses a neutral base color, repaint via
+  Compose `ColorFilter.tint(...)` or `Icon(tint = ...)`.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M5.00004,15.7468V18C5.00004,18.5523 5.44775,19 6.00004,19H12H18C18.5523,19 19,18.5523 19,18V15.7468"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M12.2023,13.5L12.2023,5"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M15.546,11.1497L12.2021,14.4165L8.85831,11.1497"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

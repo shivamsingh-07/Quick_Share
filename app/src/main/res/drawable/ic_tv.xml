@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  TV (display + stand) icon.
+
+  Source: tv.svg (48x48 viewBox, stroke-only). Composed of:
+    1) Rounded rectangle screen frame at (4.5, 9.75) size 39x25, r=4.
+    2) Horizontal stand line at y=39.5 from x=16 to x=32.
+
+  The rounded rect was expanded into explicit M / H / V / arc commands so the
+  drawable doesn't depend on Android's <rect> support inside vectors.
+
+  Tinting: stroke uses a neutral base color, repaint via Compose
+  `ColorFilter.tint(...)` or `Icon(tint = ...)`. Stroke width is
+  3.0 / 48 viewport ≈ 6.25 %, matching ic_quick_share / ic_receive /
+  ic_send / ic_settings for visually balanced line weight at any size.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:pathData="M8.5,9.75 H39.5 A4,4 0 0 1 43.5,13.75 V30.75 A4,4 0 0 1 39.5,34.75 H8.5 A4,4 0 0 1 4.5,30.75 V13.75 A4,4 0 0 1 8.5,9.75 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M16,39.5 H32"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

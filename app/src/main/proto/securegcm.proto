@@ -1,0 +1,35 @@
+// SecureGcm subset — we only need GcmMetadata for the SecureMessage Header's
+// `public_metadata` field. Quick Share peers parse it as a fingerprint of the
+// payload type carried inside DeviceToDeviceMessage.
+//
+// Reference: https://github.com/Martichou/rquickshare/blob/master/core_lib/src/proto_src/securegcm.proto
+syntax = "proto2";
+
+package quickshare.securegcm;
+
+option java_package = "com.quickshare.tv.proto.securegcm";
+option java_multiple_files = true;
+
+// Only the subset of `Type` actually carried in Quick Share traffic. Values
+// MUST match the upstream enum even though we omit the rest.
+enum Type {
+    ENROLLMENT                = 0;
+    TICKLE                    = 1;
+    TX_REQUEST                = 2;
+    TX_REPLY                  = 3;
+    TX_SYNC_REQUEST           = 4;
+    TX_SYNC_RESPONSE          = 5;
+    TX_PING                   = 6;
+    DEVICE_INFO_UPDATE        = 7;
+    TX_CANCEL_REQUEST         = 8;
+    PROXIMITYAUTH_PAIRING     = 10;
+    GCMV1_IDENTITY_ASSERTION  = 11;
+    DEVICE_TO_DEVICE_MESSAGE  = 13;
+    DEVICE_PROXIMITY_CALLBACK = 14;
+    UNLOCK_KEY_SIGNED_CHALLENGE = 15;
+}
+
+message GcmMetadata {
+    required Type  type    = 1;
+    optional int32 version = 2 [default = 0];
+}

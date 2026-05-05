@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Quick Share brand mark — BOLD (small-render) variant.
+
+  Source: same paths as ic_quick_share.xml; only strokeWidth differs.
+  Use this one for renders ≤ ~48 dp (the QR cutout, future tray icons, etc.)
+  where the lighter 2-unit stroke of ic_quick_share visually disappears.
+
+  Stroke width: 3.5 / 48 viewport ≈ 7.3 % relative stroke.
+  - ic_quick_share        @ 2 / 48 ≈ 4.17 %  → tuned for 72–160 dp hero
+  - ic_quick_share_bold   @ 3.5 / 48 ≈ 7.3 % → tuned for ≤ ~48 dp cutout
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:pathData="M45.5,24c0,-11.874 -9.626,-21.5 -21.5,-21.5c-10.15,0 -18.656,7.032 -20.913,16.49H22.99"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M18.464,14.463l4.527,4.527l-4.527,4.527"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M2.5,24c0,11.874 9.626,21.5 21.5,21.5c10.15,0 18.656,-7.032 20.913,-16.49H25.01"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M29.536,33.536l-4.527,-4.526l4.527,-4.527"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

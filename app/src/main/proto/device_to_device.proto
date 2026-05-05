@@ -1,0 +1,17 @@
+// D2D message wrapper carried inside the SecureMessage body.
+syntax = "proto2";
+
+package quickshare.d2d;
+
+option java_package = "com.quickshare.tv.proto.d2d";
+option java_multiple_files = true;
+
+message DeviceToDeviceMessage {
+    // WARNING: field numbers MUST match the upstream securegcm.DeviceToDeviceMessage
+    // (`message = 1`, `sequence_number = 2`). Stock Android Quick Share encodes
+    // by field number; if these are swapped, both fields decode to defaults
+    // (the parser silently drops unknown-wire-type fields) — which manifests
+    // as "Out-of-order seq: got 0 expected 1" the moment the peer transmits.
+    optional bytes message = 1;          // The application payload (e.g. OfflineFrame).
+    optional int32 sequence_number = 2;  // Independent per direction; starts at 1.
+}
