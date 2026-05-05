@@ -1,0 +1,15 @@
+// Endpoint metadata: encoded into the MDNS service name and TXT records.
+syntax = "proto2";
+
+package quickshare.endpoint;
+
+option java_package = "com.quickshare.tv.proto.endpoint";
+option java_multiple_files = true;
+
+// We don't use a wire-level proto here; the endpoint info on the wire is a packed
+// byte array. This message is convenient for tests / debug logging.
+message EndpointInfo {
+    optional string device_name = 1;
+    optional int32 device_type = 2; // 0=UNKNOWN 1=PHONE 2=TABLET 3=LAPTOP 4=TV
+    optional bytes endpoint_id = 3; // 4-byte random
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ──────────────────────────────────────────────────────────────
+         Networking (all API levels)
+         ────────────────────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!--  CHANGE_WIFI_MULTICAST_STATE is required to acquire a WifiManager
+          MulticastLock so MDNS discovery is reliable on Android-TV devices
+          that aggressively filter multicast.                             -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+
+    <!--  WAKE_LOCK lets us hold a partial wake lock while a transfer is
+          actively running (we release as soon as it finishes).           -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!--  Foreground service only during active file transfer (reduces bg kill). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <!--  API 33+: required for the low-importance FGS notification to display. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ──────────────────────────────────────────────────────────────
+         Bluetooth (rqs-style discovery)
+
+         Two complementary uses, both lifted from `rqs_lib`:
+
+           1. BleAdvertiser (Send picker) — broadcasts Quick Share's
+              FE2C BLE service-data beacon so nearby Android phones
+              wake/refresh their Wi-Fi LAN mDNS service. Discovery and
+              transfer still happen over mDNS + TCP.
+
+           2. BleListener (Receive listener) — passively scans for the
+              same FE2C beacon emitted by phones in "Visible to
+              everyone" mode. Used only to nudge our own MdnsAdvertiser
+              into re-announcing whenever a phone starts looking, so we
+              don't lose the race when our service was registered
+              before Android started its discovery query.
+
+         Permission shape:
+           - API ≤ 30: legacy install-time BLUETOOTH / BLUETOOTH_ADMIN
+             cover both advertise and scan.
+           - API ≥ 31: runtime BLUETOOTH_ADVERTISE (advertise side),
+             runtime BLUETOOTH_SCAN (listener side; declared with
+             usesPermissionFlags="neverForLocation" so we don't have to
+             ask for ACCESS_FINE_LOCATION just to scan), and runtime
+             BLUETOOTH_CONNECT so we can read adapter name/address for
+             diagnostics.
+         ────────────────────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="31" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+
+    <!-- ──────────────────────────────────────────────────────────────
+         Storage / media
+         ────────────────────────────────────────────────────────────── -->
+    <!--  Default flow uses the Storage Access Framework — no permission
+          is required to read URIs the user explicitly picked. We declare
+          legacy + granular media permissions only because some surfaces
+          may want to enumerate media without SAF. They are gated by
+          maxSdkVersion / minSdkVersion so each device picks at most one
+          set, and the runtime helper requests them on-demand.            -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"  />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"  />
+
+    <!-- ──────────────────────────────────────────────────────────────
+         Hardware features (TV-friendly)
+         ────────────────────────────────────────────────────────────── -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.software.leanback"    android:required="false" />
+    <!-- WiFi is preferred but not required: TVs with ethernet only still work,
+         we just won't be able to advertise on a WiFi LAN. -->
+    <uses-feature android:name="android.hardware.wifi"        android:required="false" />
+    <!-- BLE is preferred but optional: TVs without it (some older Mediatek
+         boxes) gracefully degrade to mDNS-only discovery in the picker. -->
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
+
+    <application
+        android:name=".QuickShareApp"
+        android:allowBackup="false"
+        android:banner="@drawable/app_banner"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.QuickShare"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="34">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden|navigation|uiMode"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.QuickShare">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".data.service.TransferService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+    </application>
+</manifest>

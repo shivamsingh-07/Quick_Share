@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+.kotlin/
+build/
+**/build/
+local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Wrapper jar (generate locally with `gradle wrapper`)
+gradle/wrapper/gradle-wrapper.jar
+
+# Captures from Android Studio profiler
+captures/

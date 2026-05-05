@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Edit pencil icon converted from the supplied 96x96 SVG. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M46.5219,40.4655 C47.0045,39.1658 47.7617,37.9856 48.742,37.0053 L74.2137,11.5337 C76.9345,8.81277 81.346,8.81277 84.0669,11.5337 C86.7878,14.2545 86.7878,18.666 84.0669,21.3869 L58.5952,46.8585 C57.615,47.8388 56.4347,48.596 55.135,49.0786 L43.5612,53.3757 C42.7275,53.6852 41.9153,52.873 42.2248,52.0393 L46.5219,40.4655 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="5"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M48,10 L25,10 C16.7157,10 10,16.7157 10,25 L10,71 C10,79.2843 16.7157,86 25,86 L71,86 C79.2843,86 86,79.2843 86,71 L86,48"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

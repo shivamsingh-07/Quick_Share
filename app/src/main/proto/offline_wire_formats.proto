@@ -1,0 +1,156 @@
+// Nearby Connections "offline" wire format (subset).
+// Field numbers MUST match Google's location.nearby.proto.connections so we are
+// wire-compatible with stock Quick Share / `rqs_lib`. Don't change them
+// without re-checking against upstream:
+// https://github.com/Martichou/rquickshare/blob/master/core_lib/src/proto_src/offline_wire_formats.proto
+syntax = "proto2";
+
+package quickshare.offline;
+
+option java_package = "com.quickshare.tv.proto.offline";
+option java_multiple_files = true;
+
+message OfflineFrame {
+    enum Version {
+        UNKNOWN_VERSION = 0;
+        V1 = 1;
+    }
+    optional Version version = 1;
+    optional V1Frame v1 = 2;
+}
+
+message V1Frame {
+    enum FrameType {
+        UNKNOWN_FRAME_TYPE            = 0;
+        CONNECTION_REQUEST            = 1;
+        CONNECTION_RESPONSE           = 2;
+        PAYLOAD_TRANSFER              = 3;
+        BANDWIDTH_UPGRADE_NEGOTIATION = 4;
+        KEEP_ALIVE                    = 5;
+        DISCONNECTION                 = 6;
+        PAIRED_KEY_ENCRYPTION         = 7;
+    }
+    optional FrameType type = 1;
+
+    // Field numbers MUST match Google's connection wire format.
+    optional ConnectionRequestFrame  connection_request  = 2;
+    optional ConnectionResponseFrame connection_response = 3;
+    optional PayloadTransferFrame    payload_transfer    = 4;
+    // 5 = BandwidthUpgradeNegotiationFrame (we never produce it)
+    optional KeepAliveFrame          keep_alive          = 6;
+    optional DisconnectionFrame      disconnection       = 7;
+    // 8 = PairedKeyEncryptionFrame at the offline layer (never used in
+    //     practice; the Quick Share paired-key dance is at the Sharing layer).
+}
+
+message ConnectionRequestFrame {
+    enum Medium {
+        UNKNOWN_MEDIUM = 0;
+        MDNS           = 1 [deprecated = true];
+        BLUETOOTH      = 2;
+        WIFI_HOTSPOT   = 3;
+        BLE            = 4;
+        WIFI_LAN       = 5;
+        WIFI_AWARE     = 6;
+        NFC            = 7;
+        WIFI_DIRECT    = 8;
+        WEB_RTC        = 9;
+        BLE_L2CAP      = 10;
+        USB            = 11;
+    }
+
+    optional string endpoint_id   = 1;
+    // Quick Share uses `bytes` here; protobuf wire format is identical to
+    // string, so we keep `string` for ergonomic Java/Kotlin call sites.
+    optional string endpoint_name = 2;
+    // 3 = handshake_data (unused)
+    optional int32  nonce         = 4;
+    repeated Medium mediums       = 5;
+    optional bytes  endpoint_info = 6;
+    // 7  = medium_metadata
+    // 8  = keep_alive_interval_millis
+    // 9  = keep_alive_timeout_millis
+    // 10 = device_type
+    // 11 = device_info
+}
+
+message ConnectionResponseFrame {
+    enum ResponseStatus {
+        UNKNOWN_RESPONSE_STATUS = 0;
+        ACCEPT                  = 1;
+        REJECT                  = 2;
+    }
+
+    // 1 = legacy int32 status (deprecated upstream — we don't set it)
+    // 2 = handshake_data
+    optional ResponseStatus response = 3;
+    optional OsInfo         os_info  = 4;
+    // 5 = multiplex_socket_bitmask
+    // 6 = nearby_connections_version
+}
+
+message OsInfo {
+    enum OsType {
+        UNKNOWN_OS_TYPE = 0;
+        ANDROID         = 1;
+        CHROME_OS       = 2;
+        WINDOWS         = 3;
+        APPLE           = 4;
+        LINUX           = 100;
+    }
+    optional OsType type = 1;
+}
+
+message KeepAliveFrame {
+    optional bool ack = 1;
+}
+
+// Apply safe-to-disconnect protocol if true. Reference:
+// `location.nearby.proto.connections.DisconnectionFrame`.
+message DisconnectionFrame {
+    optional bool request_safe_to_disconnect = 1;
+    optional bool ack_safe_to_disconnect     = 2;
+}
+
+message PayloadTransferFrame {
+    enum PacketType {
+        UNKNOWN_PACKET_TYPE = 0;
+        DATA                = 1;
+        CONTROL             = 2;
+    }
+    optional PacketType      packet_type      = 1;
+    optional PayloadHeader   payload_header   = 2;
+    optional PayloadChunk    payload_chunk    = 3;
+    optional ControlMessage  control_message  = 4;
+}
+
+message PayloadHeader {
+    enum PayloadType {
+        UNKNOWN_PAYLOAD_TYPE = 0;
+        BYTES                = 1;
+        FILE                 = 2;
+        STREAM               = 3;
+    }
+    optional int64       id           = 1;
+    optional PayloadType type         = 2;
+    optional int64       total_size   = 3;
+    optional bool        is_sensitive = 4;
+    optional string      file_name    = 5;
+    optional string      parent_folder= 6;
+}
+
+message PayloadChunk {
+    optional int32 flags  = 1;     // bit 0 = LAST_CHUNK
+    optional int64 offset = 2;
+    optional bytes body   = 3;
+}
+
+message ControlMessage {
+    enum EventType {
+        UNKNOWN_EVENT_TYPE   = 0;
+        PAYLOAD_RECEIVED_ACK = 1;
+        PAYLOAD_CANCELED     = 2;
+    }
+    optional EventType event  = 1;
+    optional int64     offset = 2;
+}
